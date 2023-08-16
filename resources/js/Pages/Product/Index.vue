@@ -1,6 +1,11 @@
 <template>
     <div class="py-8">
-        <span>Create Product</span> <Link class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded" href="/products/add">Add New</Link>
+        <span>Create Product</span>
+        <Link
+            class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            href="/products/add"
+            >Add New</Link
+        >
 
         <div>
             <h1>Products list</h1>
@@ -21,46 +26,69 @@
 
                 <div>
                     <label for="">Category</label>
-                    <select v-model="filters.selectedCategory" @change="applyFilters">
+                    <select
+                        v-model="filters.selectedCategory"
+                        @change="applyFilters"
+                    >
                         <option value=""></option>
-                        <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+                        <option
+                            v-for="category in categories"
+                            :key="category.id"
+                            :value="category.id"
+                        >
+                            {{ category.name }}
+                        </option>
                     </select>
                 </div>
             </div>
             <table>
-        <!-- Table header -->
-        <thead>
-          <tr>
-            <th style="width: 150px;">Image</th>
-            <th style="width: 200px;">Name</th>
-            <th style="width: 300px;">Description</th>
-            <th style="width: 150px;">Categories</th>
-            <th style="width: 100px;">Price</th>
-          </tr>
-        </thead>
+                <!-- Table header -->
+                <thead>
+                    <tr>
+                        <th style="width: 150px">Image</th>
+                        <th style="width: 200px">Name</th>
+                        <th style="width: 300px">Description</th>
+                        <th style="width: 150px">Categories</th>
+                        <th style="width: 100px">Price</th>
+                    </tr>
+                </thead>
 
-        <!-- Table body -->
-        <tbody>
-          <tr v-for="product in products.data" :key="product.id">
-            <td >
-              <img v-if="product.image" :src="storagePath + product.image" alt="Product Image" width="100" height="75" />
-            </td>
-            <td>{{ product.name }}</td>
-            <td>{{ product.description }}</td>
-            <td>{{ product.categories.map((c) => c.name).join(',') }}</td>
-            <td>{{ product.price }}</td>
-          </tr>
-        </tbody>
-      </table>
+                <!-- Table body -->
+                <tbody>
+                    <tr v-for="product in products.data" :key="product.id">
+                        <td>
+                            <img
+                                v-if="product.image"
+                                :src="storagePath + product.image"
+                                alt="Product Image"
+                                width="100"
+                                height="75"
+                            />
+                        </td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.description }}</td>
+                        <td>
+                            {{
+                                product.categories.map((c) => c.name).join(",")
+                            }}
+                        </td>
+                        <td>{{ product.price }}</td>
+                    </tr>
+                </tbody>
+            </table>
 
-      <!-- Pagination links -->
-      <div>
-        <ul>
-          <li v-for="link in products.links" :key="link.label" :class="{ active: link.active }">
-            <Link :href="link.url">{{ link.label }}</Link>
-          </li>
-        </ul>
-      </div>
+            <!-- Pagination links -->
+            <div>
+                <ul>
+                    <li
+                        v-for="link in products.links"
+                        :key="link.label"
+                        :class="{ active: link.active }"
+                    >
+                        <Link :href="link.url">{{ link.label }}</Link>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </template>
@@ -72,32 +100,33 @@ import { ref, onMounted, reactive } from "vue";
 
 defineProps({
     storagePath: {
-    type: String,
-  },
-  products: {
-    type: Object,
-  },
-  categories: {
-    type: Array,
-  },
+        type: String,
+    },
+    products: {
+        type: Object,
+    },
+    categories: {
+        type: Array,
+    },
 });
 
 const filters = reactive({
-  sortBy: "",
-  category: "",
+    sortBy: "",
+    category: "",
 });
 
 const fetchPage = async (url) => {
-  const response = await axios.get(url);
-  return response;
+    const response = await axios.get(url);
+    return response;
 };
 
 const applyFilters = () => {
-  const url = `/products?page=1&sortBy=${filters.sortBy}&category=${filters.selectedCategory || ""}`;
-  console.log(url)
-  router.get(url)
-};
+    const url = `/products?page=1&sortBy=${filters.sortBy}&category=${
+        filters.selectedCategory || ""
+    }`;
 
+    router.get(url);
+};
 </script>
 
 <style></style>
