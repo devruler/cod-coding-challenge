@@ -14,12 +14,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return Inertia::render('Welcome', [
-                    'canLogin' => Route::has('login'),
-                    'canRegister' => Route::has('register'),
-                    'laravelVersion' => Application::VERSION,
-                    'phpVersion' => PHP_VERSION,
-                ]);
+
+        return Inertia::render('Product/Index', [
+                    'data' => null]);
     }
 
     /**
@@ -27,12 +24,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Welcome', [
-                    'canLogin' => Route::has('login'),
-                    'canRegister' => Route::has('register'),
-                    'laravelVersion' => Application::VERSION,
-                    'phpVersion' => PHP_VERSION,
-                ]);
+        return Inertia::render('Product/Create', [
+            'data' => null]);
     }
 
     /**
@@ -40,7 +33,28 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'price' => 'required|numeric',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Update with appropriate validation
+        ]);
+
+        $product = new Product([
+            'name' => $request->input('name'),
+            'description' => $request->input('description'),
+            'price' => $request->input('price'),
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('products', 'public');
+            $product->image = $imagePath;
+        }
+
+        $product->save();
+
+        return redirect()->route('products.index'); // Redirect back to the product listing page
+
     }
 
     /**
