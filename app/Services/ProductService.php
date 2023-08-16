@@ -12,7 +12,6 @@ class ProductService
     protected $productRepository;
     protected $fileService;
 
-
     public function __construct(ProductRepository $productRepository, FileService $fileService)
     {
         $this->productRepository = $productRepository;
@@ -28,7 +27,9 @@ class ProductService
     {
         $uploadedFile = $this->fileService->uploadFile($request->file('image'));
         $data = [...$request->validated(), 'image' => $uploadedFile];
-        return $this->productRepository->create($data);
+        $product = $this->productRepository->create($data);
+        $product->categories()->sync($request->categories);
+        return $product;
     }
 
 }

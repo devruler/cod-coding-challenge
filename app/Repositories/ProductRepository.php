@@ -9,7 +9,7 @@ class ProductRepository
 
     public function getFilteredPaginated($params)
     {
-        $productQuery = Product::query()->orderBy('created_at', 'desc');
+        $productQuery = Product::query()->orderBy('created_at', 'desc')->with('categories');
         if (!empty($params['sortBy'])) {
             switch ($params['sortBy']) {
                 case 'nameAsc':

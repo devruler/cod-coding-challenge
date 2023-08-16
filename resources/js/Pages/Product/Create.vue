@@ -14,6 +14,12 @@
         <input type="number" id="price" v-model="product.price" step="0.01" required />
       </div>
       <div>
+        <select v-model="product.categories" @change="applyFilters" multiple>
+                        <option value=""></option>
+                        <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
+                    </select>
+      </div>
+      <div>
         <label for="image">Image:</label>
         <input type="file" id="image" @change="handleImageChange" accept="image/*" />
       </div>
@@ -34,6 +40,7 @@ const product = reactive({
   description: '',
   price: 0,
   image: null,
+  categories: [],
 });
 
 const handleImageChange = (event) => {
@@ -41,13 +48,13 @@ const handleImageChange = (event) => {
 };
 
 const createProduct = async () => {
-  const formData = new FormData();
-  formData.append('name', product.name);
-  formData.append('description', product.description);
-  formData.append('price', product.price);
-  if (product.image) {
-    formData.append('image', product.image);
-  }
+//   const formData = new FormData();
+//   formData.append('name', product.name);
+//   formData.append('description', product.description);
+//   formData.append('price', product.price);
+//   if (product.image) {
+//     formData.append('image', product.image);
+//   }
   router.post('/products', product, {
     onSuccess: (page) => {console.log(page)},
   onError: (errors) => {console.log(errors)},

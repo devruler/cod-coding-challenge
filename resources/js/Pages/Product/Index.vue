@@ -31,10 +31,11 @@
         <!-- Table header -->
         <thead>
           <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
+            <th style="width: 150px;">Image</th>
+            <th style="width: 200px;">Name</th>
+            <th style="width: 300px;">Description</th>
+            <th style="width: 150px;">Categories</th>
+            <th style="width: 100px;">Price</th>
           </tr>
         </thead>
 
@@ -46,6 +47,7 @@
             </td>
             <td>{{ product.name }}</td>
             <td>{{ product.description }}</td>
+            <td>{{ product.categories.map((c) => c.name).join(',') }}</td>
             <td>{{ product.price }}</td>
           </tr>
         </tbody>
