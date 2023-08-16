@@ -10,8 +10,8 @@ class ProductRepository
     public function getFilteredPaginated($params)
     {
         $productQuery = Product::query();
-        if (!empty($params['orderBy'])) {
-            switch ($params['orderBy']) {
+        if (!empty($params['sortBy'])) {
+            switch ($params['sortBy']) {
                 case 'nameAsc':
                     $productQuery = $productQuery->orderBy('name', 'asc');
                     break;
@@ -30,7 +30,7 @@ class ProductRepository
         }
 
         if (!empty($params['category'])) {
-            $productQuery = $productQuery->where('category_id', $params['category']);
+            $productQuery = $productQuery->whereHas('categories', fn ($query) => $query->where('categories.id', $params['category']));
         }
 
         $products = $productQuery->paginate(10);
