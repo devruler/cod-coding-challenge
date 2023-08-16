@@ -28,7 +28,7 @@
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
-const { data } = usePage().props;
+const { categories } = usePage().props;
 const product = ref({
   name: '',
   description: '',
@@ -50,10 +50,6 @@ const createProduct = async () => {
   }
 
   await axios.post(route('products.store'), formData);
-
-  // Redirect to a different page after creating the product
-  // You can modify the route as needed
-  // For example: inertia.visit(route('products.index'));
 };
 </script>
 

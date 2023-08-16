@@ -19,10 +19,7 @@
                 <div>
                     <label for="">Category</label>
                     <select name="category">
-                        <option value="nameDesc">Name Desc</option>
-                        <option value="nameAsc">Name Asc</option>
-                        <option value="priceDesc">Price Desc</option>
-                        <option value="priceAsc">Price Asc</option>
+                        <option v-for="category in categories" :key="category.id" :value="category.id">{{category.name}}</option>
                     </select>
                 </div>
             </div>
