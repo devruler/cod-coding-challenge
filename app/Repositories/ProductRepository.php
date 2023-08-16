@@ -9,7 +9,7 @@ class ProductRepository
 
     public function getFilteredPaginated($params)
     {
-        $productQuery = Product::query();
+        $productQuery = Product::query()->orderBy('created_at', 'desc');
         if (!empty($params['sortBy'])) {
             switch ($params['sortBy']) {
                 case 'nameAsc':
@@ -39,11 +39,7 @@ class ProductRepository
 
     public function create($data)
     {
-        $product = Product::create([
-            'name' => $data('name'),
-            'description' => $data('description'),
-            'price' => $data('price'),
-        ]);
+        $product = Product::create($data);
         return  $product;
     }
 }

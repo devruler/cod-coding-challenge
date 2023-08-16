@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateProductRequest;
+use App\Http\Resources\ProductResource;
 use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
@@ -34,7 +35,7 @@ class ProductController extends Controller
         $categories = $this->categoryService->getAll($params);
         $products = $this->productService->getProducts($params);
         return Inertia::render('Product/Index', [
-            'categories' => $categories,  'products' => $products
+            'categories' => $categories,  'products' => $products, 'storagePath' => config('app.url') . '/storage/'
         ]);
     }
 

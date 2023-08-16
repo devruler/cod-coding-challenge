@@ -27,7 +27,7 @@ class ProductService
     public function createProduct(Request $request)
     {
         $uploadedFile = $this->fileService->uploadFile($request->file('image'));
-        $data = [...$request->validated(), 'imageName' => $uploadedFile];
+        $data = [...$request->validated(), 'image' => $uploadedFile];
         return $this->productRepository->create($data);
     }
 

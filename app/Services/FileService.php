@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class FileService
 {
     public function uploadFile($file){
         if (!$file) return null;
-        $imagePath = $file->store('products', 'public');
-        return $imagePath;
+        $name = $file->hashName();
+        $path = $file->storeAs('products', $name, 'public');
+        return $path;
     }
 }

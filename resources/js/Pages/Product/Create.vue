@@ -25,11 +25,11 @@
 </template>
 
 <script setup>
-import { Head, Link, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { ref, reactive } from 'vue';
 
 const { categories } = usePage().props;
-const product = ref({
+const product = reactive({
   name: '',
   description: '',
   price: 0,
@@ -48,8 +48,11 @@ const createProduct = async () => {
   if (product.image) {
     formData.append('image', product.image);
   }
-
-  await axios.post(route('products.store'), formData);
+  router.post('/products', product, {
+    onSuccess: (page) => {console.log(page)},
+  onError: (errors) => {console.log(errors)},
+})
+//   await axios.post(route('products.store'), formData);
 };
 </script>
 

@@ -31,18 +31,18 @@
         <!-- Table header -->
         <thead>
           <tr>
+            <th>Image</th>
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
-            <th>Image</th>
           </tr>
         </thead>
 
         <!-- Table body -->
         <tbody>
           <tr v-for="product in products.data" :key="product.id">
-            <td>
-              <img :src="product.image" alt="Product Image" width="100" height="75" />
+            <td >
+              <img v-if="product.image" :src="storagePath + product.image" alt="Product Image" width="100" height="75" />
             </td>
             <td>{{ product.name }}</td>
             <td>{{ product.description }}</td>
@@ -69,6 +69,9 @@ import axios from "axios";
 import { ref, onMounted, reactive } from "vue";
 
 defineProps({
+    storagePath: {
+    type: String,
+  },
   products: {
     type: Object,
   },
